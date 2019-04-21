@@ -4,6 +4,7 @@ import turtle
 import random
 import time
 import tkinter
+import pickle
 click = 0
 
 def normal_mode():
@@ -221,6 +222,27 @@ def base_mode():
 	print("MAINLOOP ENDED")
 	wn.mainloop()
 
+# ranking
+ranks = {}
+def add_ranking():
+	pass
+
+ranking = thkinter.Tk()
+ranking.title("Ranking")
+lbl_title_r = tkinter.Label(ranking, text = "Ranking list!")
+lbl_title_r.grid(row = 0, column = 0)
+lbl_display_r = tkinter.Label(ranking, text = " ")
+lbl_display_r.grid(row = 0, column = 1)
+
+lbl_name_r = tkinter.Label(ranking, text = "Please write your name: ")
+lbl_name_r.grid(row = 1, column = 0)
+text_input_r = tkinter.Entry(ranking, width = 16)
+text_input_r.grid(row = 1, column = 1)
+
+lb_tasks = tkinter.Listbox(raning)
+lb_tasks.grid(row = 0, column = 2, rowspan = 7)
+
+ranking.mainloop()
 
 # menu 
 menu = tkinter.Tk()
