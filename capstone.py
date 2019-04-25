@@ -27,6 +27,7 @@ def rpg_mode():
 		click += 1
 		break
 	
+	
 		
 
 def base_mode():
@@ -35,6 +36,22 @@ def base_mode():
 	wn.title("Capstone")
 	wn.setup(height=600, width=600)
 	wn.tracer(0)
+	ranks = {}
+	def add_ranking():
+		global name
+		name = text_input_r.get()
+		ranks[head.scores] = name
+		text_input_r.delete(0, "end")
+		lb_ranks.delete(0,"end")
+		scorelist = list(ranks.keys())
+		scorelist.sort()
+		scorelist.reverse()
+
+		for score in scorelist:
+			rank = ranks[score] + " SCORE: " + str(score)
+			lb_ranks.insert("end", rank)
+
+		print(ranks)
 
 
 	class Head(turtle.Turtle):
@@ -109,12 +126,13 @@ def base_mode():
 		def __init__(self):
 			turtle.Turtle.__init__(self)
 			self.shape("square")
-			self.color("white")
+			self.color("black")
 			self.penup()
 			self.speed(0)
 	
 		def move(self):
 			self.goto(head.xcor(),head.ycor())
+			self.color("white")
 	
 
 
@@ -173,6 +191,7 @@ def base_mode():
 		if len(bodies) > 1:
 			for i in range(len(bodies) -1, -1, -1):
 				bodies[i].goto(bodies[i-1].xcor(), bodies[i-1].ycor())
+				bodies[i].color("white")
 		if len(bodies) > 0:
 			bodies[0].move()
 		time.sleep(0.1)
@@ -211,38 +230,36 @@ def base_mode():
 			pen.clear()
 
 		if head.lives == 0:
+			pen.goto(0,20)
+			pen.write("GAME END", move=False, align="center", font=("Arial", 20, "normal"))	
+			pen.goto(0,0)
+			pen.write("Thanks for playing", move=False, align="center", font=("Arial", 15, "normal"))		
+			pen.goto(0,-20)
+			pen.write("Your final score: {}".format(head.scores), move=False, align="center", font=("Arial", 20, "normal"))		
+
+			ranking = tkinter.Tk()
+			ranking.title("Ranking")
+			lbl_title_r = tkinter.Label(ranking, text = "Ranking list!")
+			lbl_title_r.grid(row = 0, column = 0)
+			lbl_display_r = tkinter.Label(ranking, text = " ")
+			lbl_display_r.grid(row = 0, column = 1)
+
+			lbl_name_r = tkinter.Label(ranking, text = "Please write your name: ")
+			lbl_name_r.grid(row = 1, column = 0)
+			text_input_r = tkinter.Entry(ranking, width = 16)
+			text_input_r.grid(row = 1, column = 1)
+
+			btn_ok_r = tkinter.Button(ranking, text = "OK!", command = add_ranking)
+			btn_ok_r.grid(row = 2, column = 0)
+
+			lb_ranks = tkinter.Listbox(ranking)
+			lb_ranks.grid(row = 0, column = 2, rowspan = 7)
+
+			ranking.mainloop()
 			break
 
-	pen.goto(0,20)
-	pen.write("GAME END", move=False, align="center", font=("Arial", 20, "normal"))	
-	pen.goto(0,0)
-	pen.write("Thanks for playing", move=False, align="center", font=("Arial", 15, "normal"))		
-	pen.goto(0,-20)
-	pen.write("Your final score: {}".format(head.scores), move=False, align="center", font=("Arial", 20, "normal"))		
-	print("MAINLOOP ENDED")
 	wn.mainloop()
 
-# ranking
-ranks = {}
-def add_ranking():
-	pass
-
-ranking = thkinter.Tk()
-ranking.title("Ranking")
-lbl_title_r = tkinter.Label(ranking, text = "Ranking list!")
-lbl_title_r.grid(row = 0, column = 0)
-lbl_display_r = tkinter.Label(ranking, text = " ")
-lbl_display_r.grid(row = 0, column = 1)
-
-lbl_name_r = tkinter.Label(ranking, text = "Please write your name: ")
-lbl_name_r.grid(row = 1, column = 0)
-text_input_r = tkinter.Entry(ranking, width = 16)
-text_input_r.grid(row = 1, column = 1)
-
-lb_tasks = tkinter.Listbox(raning)
-lb_tasks.grid(row = 0, column = 2, rowspan = 7)
-
-ranking.mainloop()
 
 # menu 
 menu = tkinter.Tk()
