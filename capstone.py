@@ -36,23 +36,35 @@ def base_mode():
 	wn.title("Capstone")
 	wn.setup(height=600, width=600)
 	wn.tracer(0)
-	ranks = {}
+	normal_ranks = {}
+	adventure_ranks = {}
 	def add_ranking():
 		global name
+		global ranks
+		#ranks = pickle.load(open("ranks.dat", "rb"))
 		name = text_input_r.get()
-		ranks[head.scores] = name
-		text_input_r.delete(0, "end")
-		lb_ranks.delete(0,"end")
-		scorelist = list(ranks.keys())
-		scorelist.sort()
-		scorelist.reverse()
-
-		for score in scorelist:
-			rank = ranks[score] + " SCORE: " + str(score)
-			lb_ranks.insert("end", rank)
-
-		print(ranks)
-
+		if game_status == "normal":
+			normal_ranks[head.scores] = name
+			text_input_r.delete(0, "end")
+			lb_ranks.delete(0,"end")
+			scorelist = list(ranks.keys())
+			scorelist.sort()
+			scorelist.reverse()
+			for score in scorelist:
+				rank = normal_ranks[score] + " SCORE: " + str(score)
+				lb_ranks_normal.insert("end", rank)
+		elif game_status == "adventure":
+			adventure_ranks[head.scores] = name
+			text_input_r.delete(0, "end")
+			lb_ranks.delete(0,"end")
+			scorelist = list(ranks.keys())
+			scorelist.sort()
+			scorelist.reverse()
+			for score in scorelist:
+				rank = adventure_ranks[score] + " SCORE: " + str(score)
+				lb_ranks_adventure.insert("end", rank)
+		#pickle.dump(ranks, open("ranks.dat", "wb"))
+		
 
 	class Head(turtle.Turtle):
 		def __init__(self):
@@ -91,8 +103,7 @@ def base_mode():
 							self.scores += 1
 							body = Body()
 							bodies.append(body)
-			
-
+	
 				
 		def check_collision(self, body):
 			if self.distance(body) < 5:
@@ -252,8 +263,17 @@ def base_mode():
 			btn_ok_r = tkinter.Button(ranking, text = "OK!", command = add_ranking)
 			btn_ok_r.grid(row = 2, column = 0)
 
-			lb_ranks = tkinter.Listbox(ranking)
-			lb_ranks.grid(row = 0, column = 2, rowspan = 7)
+			lbl_name_normal = tkinter.Label(ranking, text = "Normal Mode")
+			lbl_name_normal.grid(row = 0, column = 2)
+
+			lbl_name_adventure = tkinter.Label(ranking, text = "Adventure Mode")
+			lbl_name_adventure.grid(row = 0, column = 3)
+
+			lb_ranks_normal = tkinter.Listbox(ranking)
+			lb_ranks_normal.grid(row = 1, column = 2, rowspan = 7)
+
+			lb_ranks_adventure = tkinter.Listbox(ranking)
+			lb_ranks_adventure.grid(row = 1, column = 3, rowspan = 7)
 
 			ranking.mainloop()
 			break
